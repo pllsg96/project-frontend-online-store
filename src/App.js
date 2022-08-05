@@ -1,12 +1,15 @@
-import React from 'react';
-import './App.css';
+import React, { Component } from 'react';
+// import { getProductsFromCategoryAndQuery } from './services/api';
+// import './App.css';
+// prettier-ignore
 
-function App() {
-  return (
-    <div className="App">
-      iniciando projeto
-    </div>
-  );
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        iniciando projeto
+      </div>
+    );
+  }
 }
-
 export default App;

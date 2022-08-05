@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { getProductsFromCategoryAndQuery, getCategories } from '../services/api';
 import { Link } from 'react-router-dom';
+import { getProductsFromCategoryAndQuery, getCategories } from '../services/api';
 
 class Home extends Component {
   state = {
     valueInput: '',
     products: [],
     categoryId: '',
-    categories: []
+    categories: [],
   };
-  
+
   async componentDidMount() {
     const data = await getCategories();
     this.setState({ categories: data });
@@ -26,7 +26,7 @@ class Home extends Component {
     const data = await getProductsFromCategoryAndQuery(categoryId, valueInput);
     this.setState({ products: data.results });
   }
-  
+
   render() {
     const { categories, valueInput, products } = this.state;
     return (
@@ -70,7 +70,7 @@ class Home extends Component {
             })}
           </ul>
         </nav>
-         <section>
+        <section>
           <ul>
             { products.length > 0 ? products.map((product) => {
               const { id, title, price, thumbnail } = product;

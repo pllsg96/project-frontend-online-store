@@ -5,6 +5,7 @@ export async function getCategories() {
     'https://api.mercadolibre.com/sites/MLB/categories',
   );
   const data = await fetchAPI.json();
+  console.log(data);
   return data;
 }
 // prettier-ignore

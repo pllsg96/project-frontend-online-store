@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
-import { getProductsFromCategoryAndQuery } from '../services/api';
+import { getProductsFromCategoryAndQuery, getCategories } from '../services/api';
+import { Link } from 'react-router-dom';
 
 class Home extends Component {
   state = {
     valueInput: '',
     products: [],
     categoryId: '',
+    categories: []
   };
+  
+  async componentDidMount() {
+    const data = await getCategories();
+    this.setState({ categories: data });
+  }
 
   handleChange = ({ target }) => {
     const { value } = target;
@@ -19,11 +26,17 @@ class Home extends Component {
     const data = await getProductsFromCategoryAndQuery(categoryId, valueInput);
     this.setState({ products: data.results });
   }
-
+  
   render() {
-    const { valueInput, products } = this.state;
+    const { categories, valueInput, products } = this.state;
     return (
       <div>
+        <Link
+          data-testid="shopping-cart-button"
+          to="/shoppingcart"
+        >
+          ShoppingCart
+        </Link>
         <form>
           <input
             type="text"
@@ -42,7 +55,22 @@ class Home extends Component {
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
-        <section>
+        <nav>
+          <ul>
+            {categories.map((category) => {
+              const { id, name } = category;
+              return (
+                <li key={ id }>
+                  <label htmlFor={ id } data-testid="category">
+                    { name }
+                    <input type="radio" name="categories" id={ id } />
+                  </label>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+         <section>
           <ul>
             { products.length > 0 ? products.map((product) => {
               const { id, title, price, thumbnail } = product;

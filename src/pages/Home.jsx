@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { getCategories } from '../services/api';
 
 class Home extends Component {
@@ -15,6 +16,12 @@ class Home extends Component {
     const { categories } = this.state;
     return (
       <div>
+        <Link
+          data-testid="shopping-cart-button"
+          to="/shoppingcart"
+        >
+          ShoppingCart
+        </Link>
         <input type="text" />
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.

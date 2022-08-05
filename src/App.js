@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-// import { getProductsFromCategoryAndQuery } from './services/api';
-// import './App.css';
-// prettier-ignore
+import React from 'react';
+import './App.css';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Home from './pages/Home';
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        iniciando projeto
-      </div>
+      <BrowserRouter>
+        <Route exact path="/" component={ Home } />
+      </BrowserRouter>
     );
   }
 }

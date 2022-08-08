@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { getProductsFromCategoryAndQuery, getCategories } from '../services/api';
+import CardProduct from '../components/CardProduct';
 
 class Home extends Component {
   state = {
@@ -32,6 +34,14 @@ class Home extends Component {
     const response = await fetch(`https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}`);
     const data = await response.json();
     this.setState({ categorySelect: data.results });
+  }
+
+  detail = (event, id) => {
+    event.preventDefault();
+    const { history: { push } } = this.props;
+    push(`/product/${id}`);
+    // console.log(id);
+    // console.log(event.target);
   }
 
   render() {
@@ -93,13 +103,12 @@ class Home extends Component {
               const { id, title, price, thumbnail } = product;
               return (
                 <li key={ id }>
-                  <img src={ thumbnail } alt={ title } data-testid="product" />
-                  <p>
-                    { title }
-                  </p>
-                  <h4>
-                    { price }
-                  </h4>
+                  <CardProduct
+                    id={ id }
+                    title={ title }
+                    price={ price }
+                    thumbnail={ thumbnail }
+                  />
                 </li>
               );
             }) : <p>Nenhum produto foi encontrado</p>}
@@ -110,13 +119,19 @@ class Home extends Component {
             const { id, title, price, thumbnail } = categoryProduct;
             return (
               <li key={ id }>
-                <img src={ thumbnail } alt={ title } data-testid="product" />
-                <p>
-                  { title }
-                </p>
-                <h4>
-                  { price }
-                </h4>
+                <button
+                  type="button"
+                  onClick={ (event) => this.detail(event, id) }
+                  data-testid="product-detail-link"
+                >
+                  <CardProduct
+                    id={ id }
+                    title={ title }
+                    price={ price }
+                    thumbnail={ thumbnail }
+                  />
+
+                </button>
               </li>
             );
           })}
@@ -125,5 +140,11 @@ class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default Home;
